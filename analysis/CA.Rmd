@@ -23,28 +23,25 @@ For CA we need to make a contingency table, the number of responses/possible val
 Let's do that!
 
 ```{r}
-df <- readxl::read_xlsx('./data/MCA_Macropods_Data.xlsx', sheet = 'Macropods_Complete ind')
+#df <- readxl::read_xlsx('./data/MCA_Macropods_Data.xlsx', sheet = 'Macropods_Complete ind')
+df <- read.csv('data/CA_macropods.csv', row.names = 1)
 head(df)
-
 ```
 
-```{r}
-contingency <- df %>% gather(key=styles, value=values)
-contingency$styles <- as.factor(contingency$styles) 
-contingency$values <- as.factor(contingency$values)
-dt <- with(contingency,table(styles,values)) 
-dt
-```
 
-```{r}
-contingency %>% ggplot(aes(x=values, fill=styles)) + geom_bar()
+```{r fig.width=12}
+df %>% as_tibble(rownames = 'Types') %>% 
+  pivot_longer(-Types) %>% 
+  ggplot(aes(x=Types, y=value, fill=name)) + 
+  geom_col(position='dodge') +
+  ylab('Count')
 ```
 
 # Running the CA
 
 ```{r}
-domains.CA <- CA(dt, graph=F)
-
+domains.CA <- CA(df, graph=F)
+domains.CA
 ```
 
 ```{r}
