@@ -1,7 +1,7 @@
-name: "rockart_mca_ca"
+name: rockart_mca_ca
 output_dir: ../docs
 navbar:
-  title: "rockart_mca_ca"
+  title: rockart_mca_ca
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fab fa-github
+    text: Source code
+    href: https://github.com/philippbayer/rockart_mca_ca
 output:
   workflowr::wflow_html:
     toc: yes
