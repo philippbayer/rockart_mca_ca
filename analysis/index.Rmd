@@ -8,4 +8,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+This page collects the code for the CA and MCA analysis of Ana Paula Motta's rockart dataset.
+
+[Correspondence Analysis (CA)](CA.html)

@@ -7,4 +7,4 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+In this project we run Correspondence Analysis (CA) and Multiple Correspondence Analysis (MCA) on a table of Australian rock art. 
