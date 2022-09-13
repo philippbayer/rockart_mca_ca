@@ -37,6 +37,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -344,7 +346,13 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/philippbayer/rockart_mca_ca">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -516,13 +524,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong886692f">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreef973ee77cfa82d1ec8c82bfe333130533820a327targetblankf973ee7a">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 886692f
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/f973ee77cfa82d1ec8c82bfe333130533820a327" target="_blank">f973ee7</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong886692f"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreef973ee77cfa82d1ec8c82bfe333130533820a327targetblankf973ee7a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +541,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 886692f.
+The results in this page were generated with repository version
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/f973ee77cfa82d1ec8c82bfe333130533820a327" target="_blank">f973ee7</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -550,12 +561,7 @@ Ignored files:
     Ignored:    .Rproj.user/
 
 Untracked files:
-    Untracked:  data/MCA_Macropods_Data.xlsx
-    Untracked:  data/~$MCA_Macropods_Data.xlsx
-
-Unstaged changes:
-    Modified:   analysis/about.Rmd
-    Modified:   analysis/index.Rmd
+    Untracked:  data/CA_macropods.csv
 
 </code></pre>
 <p>
@@ -605,7 +611,41 @@ Message
 Rmd
 </td>
 <td>
-886692f
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/f973ee77cfa82d1ec8c82bfe333130533820a327/analysis/CA.Rmd" target="_blank">f973ee7</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-13
+</td>
+<td>
+wflow_publish("analysis/CA.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/philippbayer/rockart_mca_ca/c713eade1576c51d61f8cc33e39bf8add68f69ad/docs/CA.html" target="_blank">c713ead</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/886692fe094bf1764af9312d406f92e0ac74a0e8/analysis/CA.Rmd" target="_blank">886692f</a>
 </td>
 <td>
 Philipp Bayer
@@ -648,166 +688,76 @@ package.</p>
 <p>For CA we need to make a contingency table, the number of
 responses/possible values for each level for each variable (column).</p>
 <p>Let’s do that!</p>
-<pre class="r"><code>df &lt;- readxl::read_xlsx(&#39;./data/MCA_Macropods_Data.xlsx&#39;, sheet = &#39;Macropods_Complete ind&#39;)
+<pre class="r"><code>#df &lt;- readxl::read_xlsx(&#39;./data/MCA_Macropods_Data.xlsx&#39;, sheet = &#39;Macropods_Complete ind&#39;)
+df &lt;- read.csv(&#39;data/CA_macropods.csv&#39;, row.names = 1)
 head(df)</code></pre>
-<pre><code># A tibble: 6 × 9
-  Style Condition `Arm Curvature` `Arm Shape` `Leg Curvature` `Leg Shape`
-  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;           &lt;chr&gt;       &lt;chr&gt;           &lt;chr&gt;      
-1 Gwion C         M-AC-B          M-AS-B      M-LC-B          M-LS-B     
-2 IIA   P         M-AC-C          M-AS-C      M-LC-C          M-LS-C     
-3 IIA   P         M-AC-D          M-AS-D      M-LC-B          M-LS-D     
-4 IIA   C         M-AC-B          M-AS-C      M-LC-C          M-LS-B     
-5 IIA   C         M-AC-C          M-AS-E      M-LC-C          M-LS-E     
-6 EAF   C         M-AC-C          M-AS-D      M-LC-D          M-LS-D     
-# … with 3 more variables: `Tail Curvature` &lt;chr&gt;, `Tail Shape` &lt;chr&gt;,
-#   Infill &lt;chr&gt;</code></pre>
-<pre class="r"><code>contingency &lt;- df %&gt;% gather(key=styles, value=values)
-contingency$styles &lt;- as.factor(contingency$styles) 
-contingency$values &lt;- as.factor(contingency$values)
-dt &lt;- with(contingency,table(styles,values)) 
-dt</code></pre>
-<pre><code>                values
-styles             C EAF Gwion Gwion-like   I I-A I-B I-C I-D I-E I-F I-H I-I
-  Arm Curvature    0   0     0          0   0   0   0   0   0   0   0   0   0
-  Arm Shape        0   0     0          0   0   0   0   0   0   0   0   0   0
-  Condition      114   0     0          0  11   0   0   0   0   0   0   0   0
-  Infill           0   0     0          0   0  51  24  16   3   1  17   5  12
-  Leg Curvature    0   0     0          0   0   0   0   0   0   0   0   0   0
-  Leg Shape        0   0     0          0   0   0   0   0   0   0   0   0   0
-  Style            0  58    30         22   0   0   0   0   0   0   0   0   0
-  Tail Curvature   0   0     0          0   0   0   0   0   0   0   0   0   0
-  Tail Shape       0   0     0          0   0   0   0   0   0   0   0   0   0
-                values
-styles           I-J I-K I-L I-M I-N I-O I-P I-Q I-R I-S I-T I-U I-V I-W IIA
-  Arm Curvature    0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-  Arm Shape        0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-  Condition        0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-  Infill           2  17   3   7   3   2   4  13  29   3   3   2   1   5   0
-  Leg Curvature    0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-  Leg Shape        0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-  Style            0   0   0   0   0   0   0   0   0   0   0   0   0   0  72
-  Tail Curvature   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-  Tail Shape       0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-                values
-styles           IIA-like M-AC-B M-AC-C M-AC-D M-AC-E M-AC-F M-AC-G M-AC-H
-  Arm Curvature         0     27     79      3     33     19     32      3
-  Arm Shape             0      0      0      0      0      0      0      0
-  Condition             0      0      0      0      0      0      0      0
-  Infill                0      0      0      0      0      0      0      0
-  Leg Curvature         0      0      0      0      0      0      0      0
-  Leg Shape             0      0      0      0      0      0      0      0
-  Style                41      0      0      0      0      0      0      0
-  Tail Curvature        0      0      0      0      0      0      0      0
-  Tail Shape            0      0      0      0      0      0      0      0
-                values
-styles           M-AC-I M-AC-J M-AC-K M-AC-L M-AS-A M-AS-B M-AS-C M-AS-D M-AS-E
-  Arm Curvature       1      3     18      5      0      0      0      0      0
-  Arm Shape           0      0      0      0      1     73     31     59      8
-  Condition           0      0      0      0      0      0      0      0      0
-  Infill              0      0      0      0      0      0      0      0      0
-  Leg Curvature       0      0      0      0      0      0      0      0      0
-  Leg Shape           0      0      0      0      0      0      0      0      0
-  Style               0      0      0      0      0      0      0      0      0
-  Tail Curvature      0      0      0      0      0      0      0      0      0
-  Tail Shape          0      0      0      0      0      0      0      0      0
-                values
-styles           M-AS-F M-AS-G M-AS-H M-AS-I M-LC-A M-LC-B M-LC-C M-LC-D M-LC-E
-  Arm Curvature       0      0      0      0      0      0      0      0      0
-  Arm Shape          20      4     25      2      0      0      0      0      0
-  Condition           0      0      0      0      0      0      0      0      0
-  Infill              0      0      0      0      0      0      0      0      0
-  Leg Curvature       0      0      0      0     20     41     26     11     15
-  Leg Shape           0      0      0      0      0      0      0      0      0
-  Style               0      0      0      0      0      0      0      0      0
-  Tail Curvature      0      0      0      0      0      0      0      0      0
-  Tail Shape          0      0      0      0      0      0      0      0      0
-                values
-styles           M-LC-F M-LC-G M-LC-H M-LC-I M-LC-J M-LC-K M-LS-A M-LS-B M-LS-C
-  Arm Curvature       0      0      0      0      0      0      0      0      0
-  Arm Shape           0      0      0      0      0      0      0      0      0
-  Condition           0      0      0      0      0      0      0      0      0
-  Infill              0      0      0      0      0      0      0      0      0
-  Leg Curvature      18      6     72      5      7      2      0      0      0
-  Leg Shape           0      0      0      0      0      0     24     33     27
-  Style               0      0      0      0      0      0      0      0      0
-  Tail Curvature      0      0      0      0      0      0      0      0      0
-  Tail Shape          0      0      0      0      0      0      0      0      0
-                values
-styles           M-LS-D M-LS-E M-LS-F M-LS-G M-LS-H M-LS-I M-TC-A M-TC-B M-TC-C
-  Arm Curvature       0      0      0      0      0      0      0      0      0
-  Arm Shape           0      0      0      0      0      0      0      0      0
-  Condition           0      0      0      0      0      0      0      0      0
-  Infill              0      0      0      0      0      0      0      0      0
-  Leg Curvature       0      0      0      0      0      0      0      0      0
-  Leg Shape         110      1      5      9      2     12      0      0      0
-  Style               0      0      0      0      0      0      0      0      0
-  Tail Curvature      0      0      0      0      0      0     24     36      7
-  Tail Shape          0      0      0      0      0      0      0      0      0
-                values
-styles           M-TC-D M-TC-E M-TC-F M-TC-G M-TC-H M-TC-I M-TC-J M-TC-K M-TC-L
-  Arm Curvature       0      0      0      0      0      0      0      0      0
-  Arm Shape           0      0      0      0      0      0      0      0      0
-  Condition           0      0      0      0      0      0      0      0      0
-  Infill              0      0      0      0      0      0      0      0      0
-  Leg Curvature       0      0      0      0      0      0      0      0      0
-  Leg Shape           0      0      0      0      0      0      0      0      0
-  Style               0      0      0      0      0      0      0      0      0
-  Tail Curvature     47     25      8     18     19     12      4     15      4
-  Tail Shape          0      0      0      0      0      0      0      0      0
-                values
-styles           M-TC-M M-TS-A M-TS-B M-TS-C M-TS-D M-TS-E M-TS-F M-TS-G M-TS-H
-  Arm Curvature       0      0      0      0      0      0      0      0      0
-  Arm Shape           0      0      0      0      0      0      0      0      0
-  Condition           0      0      0      0      0      0      0      0      0
-  Infill              0      0      0      0      0      0      0      0      0
-  Leg Curvature       0      0      0      0      0      0      0      0      0
-  Leg Shape           0      0      0      0      0      0      0      0      0
-  Style               0      0      0      0      0      0      0      0      0
-  Tail Curvature      4      0      0      0      0      0      0      0      0
-  Tail Shape          0     26     24     38    116      3      4      9      1
-                values
-styles           M-TS-I   P
-  Arm Curvature       0   0
-  Arm Shape           0   0
-  Condition           0  98
-  Infill              0   0
-  Leg Curvature       0   0
-  Leg Shape           0   0
-  Style               0   0
-  Tail Curvature      0   0
-  Tail Shape          2   0</code></pre>
-<pre class="r"><code>contingency %&gt;% ggplot(aes(x=values, fill=styles)) + geom_bar()</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>             I.A I.B I.C I.D I.E I.F I.G I.H I.I I.J I.K I.L I.M I.N I.O I.P
+IIA            4  21  15   1   0   7   0   7  17   1   3   5  10   2   1   2
+IIA-like       5   5   1   2   0  21   0   1   1   1   4   0   0   1   0   2
+Gwion         20   2   3   0   0   2   0   0   0   0   5   0   0   0   0   0
+Gwion-like     9   1   2   0   1   0   0   0   1   0   6   0   0   0   1   1
+EAF           33   2   4   0   0   1   0   0   1   0   6   0   0   0   0   0
+Unidentified  10   1   1   0   2   0   0   0   0   0   2   0   0   0   0   0
+             I.Q I.R I.S I.T I.U I.V I.W
+IIA            4   3   0   1   2   0   1
+IIA-like       6   2   7   2   0   3   5
+Gwion          2   2   0   0   0   0   0
+Gwion-like     1   4   0   0   0   0   0
+EAF            2  29   0   0   0   0   0
+Unidentified   0   0   0   0   0   0   0</code></pre>
+<pre class="r"><code>df %&gt;% as_tibble(rownames = &#39;Types&#39;) %&gt;% 
+  pivot_longer(-Types) %&gt;% 
+  ggplot(aes(x=Types, y=value, fill=name)) + 
+  geom_col(position=&#39;dodge&#39;) +
+  ylab(&#39;Count&#39;)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 <div id="running-the-ca" class="section level1">
 <h1>Running the CA</h1>
-<pre class="r"><code>domains.CA &lt;- CA(dt, graph=F)</code></pre>
+<pre class="r"><code>domains.CA &lt;- CA(df, graph=F)</code></pre>
+<pre><code>Warning in CA(df, graph = F): The rows SP sum at 0. They were suppressed from
+the analysis</code></pre>
+<pre><code>Warning in CA(df, graph = F): The columns I.G sum at 0. They were suppressed
+from the analysis</code></pre>
+<pre class="r"><code>domains.CA</code></pre>
+<pre><code>**Results of the Correspondence Analysis (CA)**
+The row variable has  8  categories; the column variable has 22 categories
+The chi square of independence between the two variables is equal to 416.8116 (p-value =  1.195526e-27 ).
+*The results are available in the following objects:
+
+   name              description                   
+1  &quot;$eig&quot;            &quot;eigenvalues&quot;                 
+2  &quot;$col&quot;            &quot;results for the columns&quot;     
+3  &quot;$col$coord&quot;      &quot;coord. for the columns&quot;      
+4  &quot;$col$cos2&quot;       &quot;cos2 for the columns&quot;        
+5  &quot;$col$contrib&quot;    &quot;contributions of the columns&quot;
+6  &quot;$row&quot;            &quot;results for the rows&quot;        
+7  &quot;$row$coord&quot;      &quot;coord. for the rows&quot;         
+8  &quot;$row$cos2&quot;       &quot;cos2 for the rows&quot;           
+9  &quot;$row$contrib&quot;    &quot;contributions of the rows&quot;   
+10 &quot;$call&quot;           &quot;summary called parameters&quot;   
+11 &quot;$call$marge.col&quot; &quot;weights of the columns&quot;      
+12 &quot;$call$marge.row&quot; &quot;weights of the rows&quot;         </code></pre>
 <pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T)</code></pre>
-<pre><code>Warning: ggrepel: 87 unlabeled data points (too many overlaps). Consider
-increasing max.overlaps</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;rowprincipal&quot;)</code></pre>
-<pre><code>Warning: ggrepel: 87 unlabeled data points (too many overlaps). Consider
-increasing max.overlaps</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;colprincipal&quot;)</code></pre>
-<pre><code>Warning: ggrepel: 87 unlabeled data points (too many overlaps). Consider
-increasing max.overlaps</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>fviz_screeplot(domains.CA,addlabels=T) + 
   geom_hline(yintercept=14.3,linetype=2,color=&quot;red&quot;)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>What contributes to axis 1? By column:</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;col&quot;,axes=1)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>By row:</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;row&quot;,axes=1)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>What contributes to axis 2?</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;col&quot;,axes=2)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;row&quot;,axes=2)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="quality-of-fit" class="section level1">
 <h1>Quality of fit</h1>
@@ -815,13 +765,11 @@ increasing max.overlaps</code></pre>
 <pre class="r"><code>fviz_ca_row(domains.CA, col.row = &quot;cos2&quot;,
              gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
              repel = TRUE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>fviz_ca_col(domains.CA, col.col = &quot;cos2&quot;,
              gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
              repel = TRUE)</code></pre>
-<pre><code>Warning: ggrepel: 87 unlabeled data points (too many overlaps). Consider
-increasing max.overlaps</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
