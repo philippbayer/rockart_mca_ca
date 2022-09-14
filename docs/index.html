@@ -32,6 +32,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -266,7 +268,13 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/philippbayer/rockart_mca_ca">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -305,7 +313,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-13
+<strong>Last updated:</strong> 2022-09-14
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -352,13 +360,15 @@ results.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong36ae1b0">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatree402397d7c48c89dad8d62295d0286a4dbb9915c3targetblank402397da">
 <span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong> 36ae1b0
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/402397d7c48c89dad8d62295d0286a4dbb9915c3" target="_blank">402397d</a>
 </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong36ae1b0"
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatree402397d7c48c89dad8d62295d0286a4dbb9915c3targetblank402397da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -367,7 +377,8 @@ and connecting the code version to the results is critical for
 reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 36ae1b0.
+The results in this page were generated with repository version
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/402397d7c48c89dad8d62295d0286a4dbb9915c3" target="_blank">402397d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -384,9 +395,6 @@ were generated:
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  data/~$MCA_Macropods_Data.xlsx
 
 </code></pre>
 <p>
@@ -436,7 +444,42 @@ Message
 Rmd
 </td>
 <td>
-36ae1b0
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/402397d7c48c89dad8d62295d0286a4dbb9915c3/analysis/index.Rmd" target="_blank">402397d</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-14
+</td>
+<td>
+wflow_publish(c("analysis/about.Rmd", "analysis/CA.Rmd",
+"analysis/index.Rmd",
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/philippbayer/rockart_mca_ca/5e7e96f0b52098eebc4ca10bedab4b061fbac7c7/docs/index.html" target="_blank">5e7e96f</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/36ae1b0ee5eecdab12182254e7626f5ec6bd39d8/analysis/index.Rmd" target="_blank">36ae1b0</a>
 </td>
 <td>
 Philipp Bayer
@@ -453,7 +496,7 @@ wflow_publish(c("./analysis/about.Rmd", "./analysis/index.Rmd"))
 Rmd
 </td>
 <td>
-3189fea
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/3189feae80a5ddd188967763e5a0e69b3221a28d/analysis/index.Rmd" target="_blank">3189fea</a>
 </td>
 <td>
 Philipp Bayer
@@ -474,7 +517,9 @@ Start workflowr project.
 </div>
 <p>This page collects the code for the CA and MCA analysis of Ana Paula
 Motta’s rockart dataset.</p>
-<p><a href="CA.html">Correspondence Analysis (CA)</a></p>
+<p><a href="CA.html">Explorative data analysis and Correspondence
+Analysis (CA)</a></p>
+<p><a href="MCA.html">Multiple Correspondence Analysis (MCA)</a></p>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using

@@ -13,7 +13,7 @@
 
 <meta name="date" content="2022-09-13" />
 
-<title>CA</title>
+<title>EDA &amp; CA</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -362,7 +362,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">CA</h1>
+<h1 class="title toc-ignore">EDA &amp; CA</h1>
 <h4 class="author">Philipp Bayer</h4>
 <h4 class="date">2022-09-13</h4>
 
@@ -524,15 +524,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreef1999d8a3dfaaac29b57d7ea0b631fbd28895d92targetblankf1999d8a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatree402397d7c48c89dad8d62295d0286a4dbb9915c3targetblank402397da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/philippbayer/rockart_mca_ca/tree/f1999d8a3dfaaac29b57d7ea0b631fbd28895d92" target="_blank">f1999d8</a>
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/402397d7c48c89dad8d62295d0286a4dbb9915c3" target="_blank">402397d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreef1999d8a3dfaaac29b57d7ea0b631fbd28895d92targetblankf1999d8a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatree402397d7c48c89dad8d62295d0286a4dbb9915c3targetblank402397da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -542,7 +542,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/philippbayer/rockart_mca_ca/tree/f1999d8a3dfaaac29b57d7ea0b631fbd28895d92" target="_blank">f1999d8</a>.
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/402397d7c48c89dad8d62295d0286a4dbb9915c3" target="_blank">402397d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -603,6 +603,41 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/402397d7c48c89dad8d62295d0286a4dbb9915c3/analysis/CA.Rmd" target="_blank">402397d</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-14
+</td>
+<td>
+wflow_publish(c("analysis/about.Rmd", "analysis/CA.Rmd",
+"analysis/index.Rmd",
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/philippbayer/rockart_mca_ca/7f421c47e893f93b3d44ae0ea8845c614ec0f72a/docs/CA.html" target="_blank">7f421c4</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -740,6 +775,9 @@ Ryan Deschamps, “Correspondence Analysis for Historical Research with
 R,” Programming Historian 6 (2017), <a
 href="https://doi.org/10.46430/phen0062"
 class="uri">https://doi.org/10.46430/phen0062</a>.</p>
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>✔ ggplot2 3.3.6     ✔ purrr   0.3.4
@@ -784,6 +822,11 @@ Gwion          2   2   0   0   0   0   0
 Gwion-like     1   4   0   0   0   0   0
 EAF            2  29   0   0   0   0   0
 Unidentified   0   0   0   0   0   0   0</code></pre>
+</div>
+<div id="eda" class="section level1">
+<h1>EDA</h1>
+<p>Let’s make some smaller analytical plots to get a feel for this
+data.</p>
 <p>Let’s quickly look at the per-group counts:</p>
 <pre class="r"><code>df %&gt;% as_tibble(rownames = &#39;Types&#39;) %&gt;% 
   pivot_longer(-Types) %&gt;% 
@@ -799,7 +842,8 @@ results.</p>
             label = FALSE, show.margins=FALSE)</code></pre>
 <p><img src="figure/CA.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Some clear correlations there - I.B with IIA, I.C with IIA, I.F with
-IIA-like (so IIA and IIA-like are quite different!)</p>
+IIA-like (so IIA and IIA-like are quite different!). These should pop up
+later in the CA.</p>
 </div>
 <div id="running-the-ca" class="section level1">
 <h1>Running the CA</h1>
