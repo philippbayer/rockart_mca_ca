@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Philipp Bayer" />
+
+<meta name="date" content="2022-09-14" />
+
+<title>MCA</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">rockart_mca_ca</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/philippbayer/rockart_mca_ca">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">MCA</h1>
+<h4 class="author">Philipp Bayer</h4>
+<h4 class="date">2022-09-14</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-09-14
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>rockart_mca_ca/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220913code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20220913)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220913code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220913)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreea84abcac44472e07da2b8cef7b85926348f91ff3targetblanka84abcaa">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/a84abcac44472e07da2b8cef7b85926348f91ff3" target="_blank">a84abca</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreea84abcac44472e07da2b8cef7b85926348f91ff3targetblanka84abcaa"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/a84abcac44472e07da2b8cef7b85926348f91ff3" target="_blank">a84abca</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
+
+Unstaged changes:
+    Modified:   analysis/CA.Rmd
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/MCA.Rmd</code>) and HTML
+(<code>docs/MCA.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/a84abcac44472e07da2b8cef7b85926348f91ff3/analysis/MCA.Rmd" target="_blank">a84abca</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-14
+</td>
+<td>
+wflow_publish("analysis/MCA.Rmd")
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>MCA is an extension of CA that works better when the dataset is
+larger. Perhaps most famously used in the social sciences in
+<em>Bourdieu, P. “La distinction.” Revue Philosophique de la France Et
+de l 172.1 (1982).</em></p>
+<p>We already did some EDA in the <a href="CA.html">CA part</a> so we
+will not repeat that here, rather we’ll jump straight into the MCA. We
+will use the same packages as CA - FactoMineR and factoextra. See
+tutorials like <a href="https://rpubs.com/gaston/MCA"
+class="uri">https://rpubs.com/gaston/MCA</a> or <a
+href="https://cran.r-project.org/web/packages/factoextra/readme/README.html"
+class="uri">https://cran.r-project.org/web/packages/factoextra/readme/README.html</a>
+or <a
+href="http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/114-mca-multiple-correspondence-analysis-in-r-essentials/"
+class="uri">http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/114-mca-multiple-correspondence-analysis-in-r-essentials/</a></p>
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<pre class="r"><code>library(FactoMineR)</code></pre>
+<pre><code>Warning: package &#39;FactoMineR&#39; was built under R version 4.2.1</code></pre>
+<pre class="r"><code>library(factoextra)</code></pre>
+<pre><code>Warning: package &#39;factoextra&#39; was built under R version 4.2.1</code></pre>
+<pre><code>Loading required package: ggplot2</code></pre>
+<pre><code>Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>✔ tibble  3.1.7     ✔ dplyr   1.0.9
+✔ tidyr   1.2.0     ✔ stringr 1.4.0
+✔ readr   2.1.2     ✔ forcats 0.5.1
+✔ purrr   0.3.4     </code></pre>
+<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>df &lt;- data.frame(readxl::read_xlsx(&#39;./data/MCA_Macropods_Data.xlsx&#39;, sheet = &#39;Macropods_Complete ind&#39;))
+head(df)</code></pre>
+<pre><code>  Style Condition Arm.Curvature Arm.Shape Leg.Curvature Leg.Shape
+1 Gwion         C        M-AC-B    M-AS-B        M-LC-B    M-LS-B
+2   IIA         P        M-AC-C    M-AS-C        M-LC-C    M-LS-C
+3   IIA         P        M-AC-D    M-AS-D        M-LC-B    M-LS-D
+4   IIA         C        M-AC-B    M-AS-C        M-LC-C    M-LS-B
+5   IIA         C        M-AC-C    M-AS-E        M-LC-C    M-LS-E
+6   EAF         C        M-AC-C    M-AS-D        M-LC-D    M-LS-D
+  Tail.Curvature Tail.Shape Infill
+1         M-TC-B     M-TS-B    I-K
+2         M-TC-C     M-TS-C    I-H
+3         M-TC-C     M-TS-C    I-H
+4         M-TC-D     M-TS-B    I-H
+5         M-TC-E     M-TS-D    I-L
+6         M-TC-E     M-TS-D    I-K</code></pre>
+</div>
+<div id="mca" class="section level1">
+<h1>MCA</h1>
+<pre class="r"><code>res.mca &lt;- MCA(df, graph = FALSE, ncp = 5)
+summary(res.mca)</code></pre>
+<pre><code>
+Call:
+MCA(X = df, ncp = 5, graph = FALSE) 
+
+
+Eigenvalues
+                       Dim.1   Dim.2   Dim.3   Dim.4   Dim.5   Dim.6   Dim.7
+Variance               0.401   0.323   0.300   0.263   0.252   0.240   0.231
+% of var.              4.346   3.498   3.251   2.849   2.731   2.602   2.502
+Cumulative % of var.   4.346   7.844  11.095  13.944  16.675  19.277  21.780
+                       Dim.8   Dim.9  Dim.10  Dim.11  Dim.12  Dim.13  Dim.14
+Variance               0.222   0.218   0.207   0.205   0.198   0.194   0.188
+% of var.              2.404   2.359   2.250   2.220   2.147   2.105   2.041
+Cumulative % of var.  24.184  26.543  28.793  31.013  33.160  35.264  37.305
+                      Dim.15  Dim.16  Dim.17  Dim.18  Dim.19  Dim.20  Dim.21
+Variance               0.180   0.179   0.169   0.162   0.161   0.157   0.155
+% of var.              1.954   1.942   1.829   1.760   1.743   1.702   1.676
+Cumulative % of var.  39.259  41.201  43.030  44.790  46.533  48.234  49.910
+                      Dim.22  Dim.23  Dim.24  Dim.25  Dim.26  Dim.27  Dim.28
+Variance               0.151   0.147   0.144   0.141   0.140   0.135   0.133
+% of var.              1.638   1.590   1.558   1.532   1.518   1.466   1.441
+Cumulative % of var.  51.548  53.138  54.697  56.229  57.746  59.212  60.653
+                      Dim.29  Dim.30  Dim.31  Dim.32  Dim.33  Dim.34  Dim.35
+Variance               0.130   0.127   0.125   0.122   0.120   0.118   0.116
+% of var.              1.415   1.374   1.352   1.324   1.300   1.279   1.253
+Cumulative % of var.  62.068  63.442  64.794  66.118  67.418  68.697  69.950
+                      Dim.36  Dim.37  Dim.38  Dim.39  Dim.40  Dim.41  Dim.42
+Variance               0.112   0.111   0.106   0.106   0.103   0.100   0.100
+% of var.              1.216   1.199   1.154   1.146   1.112   1.089   1.080
+Cumulative % of var.  71.167  72.366  73.520  74.667  75.779  76.868  77.948
+                      Dim.43  Dim.44  Dim.45  Dim.46  Dim.47  Dim.48  Dim.49
+Variance               0.097   0.095   0.092   0.090   0.085   0.085   0.081
+% of var.              1.052   1.031   1.001   0.974   0.925   0.918   0.875
+Cumulative % of var.  79.000  80.032  81.032  82.006  82.931  83.849  84.724
+                      Dim.50  Dim.51  Dim.52  Dim.53  Dim.54  Dim.55  Dim.56
+Variance               0.078   0.074   0.071   0.069   0.066   0.065   0.063
+% of var.              0.850   0.806   0.767   0.747   0.721   0.708   0.686
+Cumulative % of var.  85.574  86.380  87.147  87.895  88.616  89.323  90.009
+                      Dim.57  Dim.58  Dim.59  Dim.60  Dim.61  Dim.62  Dim.63
+Variance               0.061   0.058   0.056   0.054   0.053   0.052   0.048
+% of var.              0.660   0.629   0.610   0.585   0.576   0.562   0.519
+Cumulative % of var.  90.669  91.298  91.908  92.493  93.069  93.632  94.151
+                      Dim.64  Dim.65  Dim.66  Dim.67  Dim.68  Dim.69  Dim.70
+Variance               0.047   0.043   0.040   0.040   0.039   0.037   0.034
+% of var.              0.510   0.461   0.439   0.430   0.420   0.397   0.373
+Cumulative % of var.  94.660  95.121  95.560  95.990  96.410  96.808  97.181
+                      Dim.71  Dim.72  Dim.73  Dim.74  Dim.75  Dim.76  Dim.77
+Variance               0.033   0.030   0.029   0.027   0.027   0.025   0.021
+% of var.              0.356   0.328   0.316   0.298   0.287   0.273   0.232
+Cumulative % of var.  97.537  97.865  98.181  98.479  98.766  99.039  99.271
+                      Dim.78  Dim.79  Dim.80  Dim.81  Dim.82  Dim.83
+Variance               0.020   0.015   0.012   0.011   0.006   0.003
+% of var.              0.219   0.163   0.133   0.114   0.067   0.033
+Cumulative % of var.  99.490  99.653  99.786  99.900  99.967 100.000
+
+Individuals (the 10 first)
+              Dim.1    ctr   cos2    Dim.2    ctr   cos2    Dim.3    ctr   cos2
+1          | -0.477  0.254  0.039 |  0.233  0.076  0.009 |  0.183  0.050  0.006
+2          |  0.535  0.320  0.024 |  0.985  1.348  0.083 |  0.317  0.150  0.009
+3          |  0.469  0.246  0.012 |  0.508  0.358  0.014 |  0.111  0.018  0.001
+4          | -0.056  0.003  0.000 |  0.944  1.238  0.094 |  0.716  0.768  0.054
+5          |  0.339  0.129  0.003 |  0.516  0.370  0.007 | -0.671  0.674  0.012
+6          | -0.329  0.121  0.020 | -0.004  0.000  0.000 | -0.552  0.455  0.055
+7          | -0.744  0.619  0.044 |  0.157  0.034  0.002 |  1.255  2.357  0.126
+8          | -0.069  0.005  0.000 |  0.876  1.067  0.050 | -0.381  0.217  0.009
+9          |  0.124  0.017  0.003 |  0.851  1.006  0.135 |  0.378  0.213  0.027
+10         |  0.360  0.145  0.014 |  1.545  3.320  0.263 | -0.202  0.061  0.004
+            
+1          |
+2          |
+3          |
+4          |
+5          |
+6          |
+7          |
+8          |
+9          |
+10         |
+
+Categories (the 10 first)
+              Dim.1    ctr   cos2 v.test    Dim.2    ctr   cos2 v.test    Dim.3
+EAF        | -1.015  7.429  0.362 -8.967 | -0.311  0.869  0.034 -2.752 | -0.169
+Gwion      | -0.307  0.351  0.015 -1.802 | -0.301  0.419  0.014 -1.766 | -0.389
+Gwion-like | -0.310  0.263  0.011 -1.530 |  0.303  0.311  0.010  1.492 |  0.147
+IIA        |  0.449  1.802  0.096  4.616 |  0.735  6.002  0.257  7.559 |  0.120
+IIA-like   |  1.039  5.502  0.243  7.347 | -0.792  3.972  0.141 -5.601 |  0.234
+C          | -0.518  3.799  0.280 -7.889 | -0.145  0.368  0.022 -2.202 | -0.143
+I          |  1.391  2.648  0.100  4.723 | -0.597  0.606  0.018 -2.027 |  0.480
+P          |  0.446  2.424  0.156  5.885 |  0.235  0.837  0.043  3.102 |  0.113
+M-AC-B     |  0.154  0.079  0.003  0.851 |  1.201  6.011  0.199  6.640 |  0.335
+M-AC-C     |  0.146  0.210  0.012  1.616 |  0.096  0.113  0.005  1.061 | -0.056
+              ctr   cos2 v.test  
+EAF         0.274  0.010 -1.490 |
+Gwion       0.754  0.024 -2.285 |
+Gwion-like  0.079  0.002  0.723 |
+IIA         0.171  0.007  1.232 |
+IIA-like    0.374  0.012  1.657 |
+C           0.390  0.022 -2.185 |
+I           0.422  0.012  1.631 |
+P           0.208  0.010  1.489 |
+M-AC-B      0.504  0.015  1.853 |
+M-AC-C      0.041  0.002 -0.615 |
+
+Categorical variables (eta2)
+                 Dim.1 Dim.2 Dim.3  
+Style          | 0.554 0.336 0.045 |
+Condition      | 0.320 0.053 0.027 |
+Arm.Curvature  | 0.365 0.385 0.533 |
+Arm.Shape      | 0.463 0.318 0.110 |
+Leg.Curvature  | 0.305 0.433 0.639 |
+Leg.Shape      | 0.277 0.435 0.227 |
+Tail.Curvature | 0.383 0.262 0.340 |
+Tail.Shape     | 0.399 0.096 0.597 |
+Infill         | 0.542 0.585 0.181 |</code></pre>
+<pre class="r"><code>eig.val &lt;- get_eigenvalue(res.mca)
+eig.val</code></pre>
+<pre><code>        eigenvalue variance.percent cumulative.variance.percent
+Dim.1  0.400797801       4.34600025                    4.346000
+Dim.2  0.322602911       3.49810386                    7.844104
+Dim.3  0.299797857       3.25082014                   11.094924
+Dim.4  0.262741767       2.84900712                   13.943931
+Dim.5  0.251891151       2.73134983                   16.675281
+Dim.6  0.239967726       2.60205968                   19.277341
+Dim.7  0.230768341       2.50230732                   21.779648
+Dim.8  0.221745890       2.40447351                   24.184122
+Dim.9  0.217564365       2.35913167                   26.543253
+Dim.10 0.207461419       2.24958165                   28.792835
+Dim.11 0.204715818       2.21981008                   31.012645
+Dim.12 0.198006102       2.14705412                   33.159699
+Dim.13 0.194091665       2.10460841                   35.264308
+Dim.14 0.188182753       2.04053587                   37.304843
+Dim.15 0.180195457       1.95392665                   39.258770
+Dim.16 0.179091237       1.94195317                   41.200723
+Dim.17 0.168694460       1.82921704                   43.029940
+Dim.18 0.162310736       1.75999593                   44.789936
+Dim.19 0.160737930       1.74294141                   46.532878
+Dim.20 0.156927379       1.70162218                   48.234500
+Dim.21 0.154521550       1.67553488                   49.910035
+Dim.22 0.151076590       1.63817989                   51.548215
+Dim.23 0.146637042       1.59004021                   53.138255
+Dim.24 0.143706126       1.55825920                   54.696514
+Dim.25 0.141310005       1.53227717                   56.228791
+Dim.26 0.139950808       1.51753888                   57.746330
+Dim.27 0.135170117       1.46570007                   59.212030
+Dim.28 0.132867837       1.44073558                   60.652766
+Dim.29 0.130491808       1.41497141                   62.067737
+Dim.30 0.126721193       1.37408522                   63.441822
+Dim.31 0.124707248       1.35224727                   64.794070
+Dim.32 0.122060490       1.32354748                   66.117617
+Dim.33 0.119910762       1.30023718                   67.417854
+Dim.34 0.117974993       1.27924692                   68.697101
+Dim.35 0.115583551       1.25331562                   69.950417
+Dim.36 0.112178658       1.21639509                   71.166812
+Dim.37 0.110611221       1.19939878                   72.366211
+Dim.38 0.106443770       1.15420956                   73.520420
+Dim.39 0.105721981       1.14638293                   74.666803
+Dim.40 0.102566025       1.11216171                   75.778965
+Dim.41 0.100436103       1.08906618                   76.868031
+Dim.42 0.099627990       1.08030351                   77.948335
+Dim.43 0.097014593       1.05196547                   79.000300
+Dim.44 0.095115990       1.03137821                   80.031678
+Dim.45 0.092296696       1.00080754                   81.032486
+Dim.46 0.089790311       0.97362988                   82.006116
+Dim.47 0.085269604       0.92461016                   82.930726
+Dim.48 0.084673250       0.91814367                   83.848870
+Dim.49 0.080689203       0.87494316                   84.723813
+Dim.50 0.078424571       0.85038691                   85.574200
+Dim.51 0.074315490       0.80583062                   86.380030
+Dim.52 0.070771051       0.76739694                   87.147427
+Dim.53 0.068930660       0.74744089                   87.894868
+Dim.54 0.066475890       0.72082290                   88.615691
+Dim.55 0.065248567       0.70751459                   89.323206
+Dim.56 0.063255806       0.68590633                   90.009112
+Dim.57 0.060822941       0.65952587                   90.668638
+Dim.58 0.058047700       0.62943289                   91.298071
+Dim.59 0.056290213       0.61037581                   91.908446
+Dim.60 0.053947504       0.58497294                   92.493419
+Dim.61 0.053113612       0.57593073                   93.069350
+Dim.62 0.051855859       0.56229245                   93.631643
+Dim.63 0.047865446       0.51902291                   94.150665
+Dim.64 0.047015564       0.50980732                   94.660473
+Dim.65 0.042501157       0.46085592                   95.121329
+Dim.66 0.040482463       0.43896647                   95.560295
+Dim.67 0.039613904       0.42954836                   95.989844
+Dim.68 0.038765505       0.42034885                   96.410192
+Dim.69 0.036654541       0.39745888                   96.807651
+Dim.70 0.034386363       0.37286418                   97.180515
+Dim.71 0.032833840       0.35602959                   97.536545
+Dim.72 0.030267407       0.32820080                   97.864746
+Dim.73 0.029169387       0.31629455                   98.181040
+Dim.74 0.027467513       0.29784050                   98.478881
+Dim.75 0.026510151       0.28745946                   98.766340
+Dim.76 0.025184282       0.27308257                   99.039423
+Dim.77 0.021380528       0.23183706                   99.271260
+Dim.78 0.020184380       0.21886677                   99.490127
+Dim.79 0.015003960       0.16269355                   99.652820
+Dim.80 0.012255465       0.13289059                   99.785711
+Dim.81 0.010507887       0.11394095                   99.899652
+Dim.82 0.006196233       0.06718807                   99.966840
+Dim.83 0.003058098       0.03316010                  100.000000</code></pre>
+<p>Now we have suddenly WAY more rows - 223 - so our cutoff differs. 1 /
+222 * 100 = 0.45</p>
+<pre class="r"><code>fviz_screeplot(res.mca,addlabels=T) + 
+  geom_hline(yintercept=0.45,linetype=2,color=&quot;red&quot;)</code></pre>
+<p><img src="figure/MCA.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>As you can see, MCA has a MUCH lower explained variances than CA, but
+our cutoff changed?</p>
+<div id="plotting" class="section level2">
+<h2>Plotting</h2>
+<pre class="r"><code>fviz_mca_biplot(res.mca, 
+               repel = TRUE, # Avoid text overlapping (slow if many point)
+               ggtheme = theme_minimal())</code></pre>
+<pre><code>Warning: ggrepel: 187 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+<pre><code>Warning: ggrepel: 51 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+<p><img src="figure/MCA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Oh. This particular dataset is much larger than the one I used for CA
+- investigating.</p>
+</div>
+<div id="contributions" class="section level2">
+<h2>Contributions</h2>
+<pre class="r"><code>fviz_contrib(res.mca, choice=&quot;var&quot;,axes=1:2, top = 20)</code></pre>
+<p><img src="figure/MCA.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fviz_mca_var(res.mca, col.var = &quot;contrib&quot;,
+             gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
+             repel = TRUE, # avoid text overlapping (slow)
+             ggtheme = theme_minimal()
+             )</code></pre>
+<pre><code>Warning: ggrepel: 57 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+<p><img src="figure/MCA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>And by individual?</p>
+<pre class="r"><code>fviz_mca_ind(res.mca, col.ind = &quot;cos2&quot;, 
+             gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;),
+             repel = TRUE, # Avoid text overlapping (slow if many points)
+             ggtheme = theme_minimal())</code></pre>
+<pre><code>Warning: ggrepel: 161 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+<p><img src="figure/MCA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>There are some weird outlier individuals. Hm.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19044)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_Australia.utf8  LC_CTYPE=English_Australia.utf8   
+[3] LC_MONETARY=English_Australia.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=English_Australia.utf8    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] forcats_0.5.1    stringr_1.4.0    dplyr_1.0.9      purrr_0.3.4     
+ [5] readr_2.1.2      tidyr_1.2.0      tibble_3.1.7     tidyverse_1.3.1 
+ [9] factoextra_1.0.7 ggplot2_3.3.6    FactoMineR_2.6   workflowr_1.7.0 
+
+loaded via a namespace (and not attached):
+ [1] fs_1.5.2             lubridate_1.8.0      httr_1.4.3          
+ [4] rprojroot_2.0.3      tools_4.2.0          backports_1.4.1     
+ [7] bslib_0.3.1          utf8_1.2.2           R6_2.5.1            
+[10] DT_0.23              DBI_1.1.2            colorspace_2.0-3    
+[13] withr_2.5.0          tidyselect_1.1.2     processx_3.5.3      
+[16] emmeans_1.7.5        compiler_4.2.0       git2r_0.30.1        
+[19] cli_3.3.0            rvest_1.0.2          flashClust_1.01-2   
+[22] xml2_1.3.3           labeling_0.4.2       sass_0.4.1          
+[25] scales_1.2.0         mvtnorm_1.1-3        callr_3.7.0         
+[28] multcompView_0.1-8   digest_0.6.29        rmarkdown_2.14      
+[31] pkgconfig_2.0.3      htmltools_0.5.2      highr_0.9           
+[34] dbplyr_2.1.1         fastmap_1.1.0        htmlwidgets_1.5.4   
+[37] rlang_1.0.2          readxl_1.4.0         rstudioapi_0.13     
+[40] farver_2.1.0         jquerylib_0.1.4      generics_0.1.2      
+[43] jsonlite_1.8.0       car_3.1-0            magrittr_2.0.3      
+[46] leaps_3.1            Rcpp_1.0.8.3         munsell_0.5.0       
+[49] fansi_1.0.3          abind_1.4-5          lifecycle_1.0.1     
+[52] scatterplot3d_0.3-42 stringi_1.7.6        whisker_0.4         
+[55] yaml_2.3.5           carData_3.0-5        MASS_7.3-57         
+[58] grid_4.2.0           promises_1.2.0.1     ggrepel_0.9.1       
+[61] crayon_1.5.1         lattice_0.20-45      haven_2.5.0         
+[64] hms_1.1.1            knitr_1.39           ps_1.7.0            
+[67] pillar_1.7.0         ggpubr_0.4.0         estimability_1.4    
+[70] ggsignif_0.6.3       reprex_2.0.1         glue_1.6.2          
+[73] evaluate_0.15        getPass_0.2-2        modelr_0.1.8        
+[76] vctrs_0.4.1          tzdb_0.3.0           httpuv_1.6.5        
+[79] cellranger_1.1.0     gtable_0.3.0         assertthat_0.2.1    
+[82] xfun_0.31            xtable_1.8-4         broom_0.8.0         
+[85] rstatix_0.7.0        coda_0.19-4          later_1.3.0         
+[88] cluster_2.1.3        ellipsis_0.3.2      </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
