@@ -393,7 +393,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-13
+<strong>Last updated:</strong> 2022-09-14
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -524,15 +524,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreef973ee77cfa82d1ec8c82bfe333130533820a327targetblankf973ee7a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreeac0a0ea247e755553552d8ac907d4b8e0d0b999ftargetblankac0a0eaa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/philippbayer/rockart_mca_ca/tree/f973ee77cfa82d1ec8c82bfe333130533820a327" target="_blank">f973ee7</a>
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/ac0a0ea247e755553552d8ac907d4b8e0d0b999f" target="_blank">ac0a0ea</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreef973ee77cfa82d1ec8c82bfe333130533820a327targetblankf973ee7a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreeac0a0ea247e755553552d8ac907d4b8e0d0b999ftargetblankac0a0eaa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -542,7 +542,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/philippbayer/rockart_mca_ca/tree/f973ee77cfa82d1ec8c82bfe333130533820a327" target="_blank">f973ee7</a>.
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/ac0a0ea247e755553552d8ac907d4b8e0d0b999f" target="_blank">ac0a0ea</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -559,9 +559,6 @@ were generated:
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-
-Untracked files:
-    Untracked:  data/CA_macropods.csv
 
 </code></pre>
 <p>
@@ -606,6 +603,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/ac0a0ea247e755553552d8ac907d4b8e0d0b999f/analysis/CA.Rmd" target="_blank">ac0a0ea</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-14
+</td>
+<td>
+workflowr::wflow_publish("analysis/CA.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/philippbayer/rockart_mca_ca/b9d30204f1ee08b028cfb9dc5810dd9e2d1f404f/docs/CA.html" target="_blank">b9d3020</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -684,10 +715,19 @@ package.</p>
 <pre class="r"><code>library(factoextra)</code></pre>
 <pre><code>Warning: package &#39;factoextra&#39; was built under R version 4.2.1</code></pre>
 <pre><code>Welcome! Want to learn more? See two factoextra-related books at https://goo.gl/ve3WBa</code></pre>
-<pre class="r"><code>#install.packages(c(&#39;factoextra&#39;, &#39;FactoMineR&#39;))</code></pre>
+<pre class="r"><code>library(gplots)</code></pre>
+<pre><code>Warning: package &#39;gplots&#39; was built under R version 4.2.1</code></pre>
+<pre><code>
+Attaching package: &#39;gplots&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:stats&#39;:
+
+    lowess</code></pre>
+<pre class="r"><code>library(corrplot)</code></pre>
+<pre><code>corrplot 0.92 loaded</code></pre>
+<pre class="r"><code>#install.packages(c(&#39;gplots&#39;, &#39;factoextra&#39;, &#39;FactoMineR&#39;))</code></pre>
 <p>For CA we need to make a contingency table, the number of
 responses/possible values for each level for each variable (column).</p>
-<p>Let’s do that!</p>
+<p>We have one already.</p>
 <pre class="r"><code>#df &lt;- readxl::read_xlsx(&#39;./data/MCA_Macropods_Data.xlsx&#39;, sheet = &#39;Macropods_Complete ind&#39;)
 df &lt;- read.csv(&#39;data/CA_macropods.csv&#39;, row.names = 1)
 head(df)</code></pre>
@@ -709,8 +749,15 @@ Unidentified   0   0   0   0   0   0   0</code></pre>
   pivot_longer(-Types) %&gt;% 
   ggplot(aes(x=Types, y=value, fill=name)) + 
   geom_col(position=&#39;dodge&#39;) +
-  ylab(&#39;Count&#39;)</code></pre>
+  ylab(&#39;Count&#39;) + 
+  theme_minimal()</code></pre>
 <p><img src="figure/CA.Rmd/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Let’s make a correlation plot too.</p>
+<pre class="r"><code>balloonplot(as.table(as.matrix(df)), main=&#39;Types&#39;, xlab=&#39;&#39;, ylab=&#39;&#39;,
+            label = FALSE, show.margins=FALSE)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Some clear correlations there - I.B with IIA, I.C with IIA, I.F with
+IIA-like (so IIA and IIA-like are quite different!)</p>
 </div>
 <div id="running-the-ca" class="section level1">
 <h1>Running the CA</h1>
@@ -719,57 +766,196 @@ Unidentified   0   0   0   0   0   0   0</code></pre>
 the analysis</code></pre>
 <pre><code>Warning in CA(df, graph = F): The columns I.G sum at 0. They were suppressed
 from the analysis</code></pre>
-<pre class="r"><code>domains.CA</code></pre>
-<pre><code>**Results of the Correspondence Analysis (CA)**
-The row variable has  8  categories; the column variable has 22 categories
-The chi square of independence between the two variables is equal to 416.8116 (p-value =  1.195526e-27 ).
-*The results are available in the following objects:
+<pre class="r"><code>summary(domains.CA)</code></pre>
+<pre><code>
+Call:
+CA(X = df, graph = F) 
 
-   name              description                   
-1  &quot;$eig&quot;            &quot;eigenvalues&quot;                 
-2  &quot;$col&quot;            &quot;results for the columns&quot;     
-3  &quot;$col$coord&quot;      &quot;coord. for the columns&quot;      
-4  &quot;$col$cos2&quot;       &quot;cos2 for the columns&quot;        
-5  &quot;$col$contrib&quot;    &quot;contributions of the columns&quot;
-6  &quot;$row&quot;            &quot;results for the rows&quot;        
-7  &quot;$row$coord&quot;      &quot;coord. for the rows&quot;         
-8  &quot;$row$cos2&quot;       &quot;cos2 for the rows&quot;           
-9  &quot;$row$contrib&quot;    &quot;contributions of the rows&quot;   
-10 &quot;$call&quot;           &quot;summary called parameters&quot;   
-11 &quot;$call$marge.col&quot; &quot;weights of the columns&quot;      
-12 &quot;$call$marge.row&quot; &quot;weights of the rows&quot;         </code></pre>
-<pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;rowprincipal&quot;)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;colprincipal&quot;)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+The chi square of independence between the two variables is equal to 416.8116 (p-value =  1.195526e-27 ).
+
+Eigenvalues
+                       Dim.1   Dim.2   Dim.3   Dim.4   Dim.5   Dim.6   Dim.7
+Variance               0.553   0.386   0.144   0.057   0.039   0.032   0.011
+% of var.             45.217  31.612  11.763   4.693   3.179   2.603   0.931
+Cumulative % of var.  45.217  76.829  88.593  93.286  96.465  99.069 100.000
+
+Rows
+               Iner*1000     Dim.1     ctr    cos2     Dim.2     ctr    cos2  
+IIA          |   292.786 |   0.701  27.884   0.526 |  -0.659  35.262   0.465 |
+IIA-like     |   334.636 |   0.694  17.631   0.291 |   1.082  61.287   0.708 |
+Gwion        |    79.998 |  -0.627   7.503   0.518 |   0.081   0.179   0.009 |
+Gwion-like   |    71.651 |  -0.604   5.221   0.403 |  -0.066   0.090   0.005 |
+EAF          |   232.069 |  -0.886  32.485   0.774 |   0.003   0.001   0.000 |
+Unidentified |   124.675 |  -0.888   6.697   0.297 |  -0.043   0.022   0.001 |
+Ochre        |    58.196 |   0.913   1.328   0.126 |  -1.113   2.820   0.187 |
+Wanjina?     |    28.311 |  -0.687   1.251   0.244 |  -0.299   0.339   0.046 |
+               Dim.3     ctr    cos2  
+IIA           -0.024   0.124   0.001 |
+IIA-like      -0.013   0.024   0.000 |
+Gwion          0.284   5.936   0.107 |
+Gwion-like     0.373   7.646   0.153 |
+EAF           -0.465  34.402   0.213 |
+Unidentified   1.258  51.604   0.595 |
+Ochre          0.036   0.008   0.000 |
+Wanjina?      -0.158   0.256   0.013 |
+
+Columns (the 10 first)
+               Iner*1000     Dim.1     ctr    cos2     Dim.2     ctr    cos2  
+I.A          |   189.791 |  -0.831  30.753   0.896 |   0.049   0.155   0.003 |
+I.B          |    79.090 |   0.613   6.780   0.474 |  -0.501   6.485   0.317 |
+I.C          |    30.795 |   0.191   0.502   0.090 |  -0.540   5.747   0.721 |
+I.D          |    13.641 |   0.937   1.396   0.566 |   0.807   1.482   0.420 |
+I.E          |    86.881 |  -1.067   1.813   0.115 |  -0.082   0.015   0.001 |
+I.F          |   134.032 |   0.752   9.311   0.384 |   0.948  21.150   0.610 |
+I.H          |    35.594 |   0.942   3.763   0.584 |  -0.710   3.061   0.332 |
+I.I          |    79.613 |   0.748   5.934   0.412 |  -0.819  10.184   0.494 |
+I.J          |     6.054 |   0.938   0.934   0.852 |   0.340   0.176   0.112 |
+I.K          |    41.266 |  -0.464   2.971   0.398 |   0.142   0.397   0.037 |
+               Dim.3     ctr    cos2  
+I.A            0.177   5.358   0.041 |
+I.B            0.060   0.249   0.005 |
+I.C            0.063   0.213   0.010 |
+I.D           -0.044   0.012   0.001 |
+I.E            2.538  39.426   0.652 |
+I.F           -0.029   0.052   0.001 |
+I.H           -0.059   0.058   0.002 |
+I.I           -0.067   0.185   0.003 |
+I.J           -0.049   0.010   0.002 |
+I.K            0.330   5.791   0.202 |</code></pre>
+<p>That’s a very tiny p-value, so there is a statistically significant
+association between the rows and columns (the two groups).</p>
+<p>We also see that the cumulative % of variance explained is very good,
+with two dimensions we already have 76.8% explained in total. Let’s plot
+the dimensions’ variance explained:</p>
 <pre class="r"><code>fviz_screeplot(domains.CA,addlabels=T) + 
-  geom_hline(yintercept=14.3,linetype=2,color=&quot;red&quot;)</code></pre>
+  geom_hline(yintercept=12.5,linetype=2,color=&quot;red&quot;)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>I added a y-intercept based on the expected eigenvalue if data were
+random: 1/(nrow(df)-1) * 100 = 12.5. Dimension 3 is <em>just</em> too
+low at 11.8% where the cutoff is 12.5%. So we can be confident to look
+only at the first two dimensions.</p>
+<p>Let’s make a regular CA plot to see how they cluster:</p>
+<pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>For the columns in blue, we can see IIA-like on its own in the top
+right, IIA and Oche on their own bottom right, and the rest clusters on
+the left.</p>
+<p>Let’s see whether there’s differences between rows and columns - from
+the fviz_ca_biplot manual:</p>
+<p>’The default plot of (M)CA is a “symmetric” plot in which both rows
+and columns are in principal coordinates. In this situation, it’s not
+possible to interpret the distance between row points and column points.
+To overcome this problem, the simplest way is to make an asymmetric
+plot. This means that, the column profiles must be presented in row
+space or vice-versa. The allowed options for the argument map are:</p>
+<p>“rowprincipal” or “colprincipal”: asymmetric plots with either rows
+in principal coordinates and columns in standard coordinates, or vice
+versa. These plots preserve row metric or column metric
+respectively.’</p>
+<pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;rowprincipal&quot;)</code></pre>
 <p><img src="figure/CA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;colprincipal&quot;)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Both plots don’t look <em>that</em> different to me - the overall
+clusters are retained.</p>
+</div>
+<div id="contribution-of-rows-and-columns" class="section level1">
+<h1>Contribution of rows and columns</h1>
 <p>What contributes to axis 1? By column:</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;col&quot;,axes=1)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>So I.A contributes the most to the column-wise distribution.</p>
 <p>By row:</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;row&quot;,axes=1)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>EAF contributes the most. Look at the above biplot - EAF and IA are
+together on the left.</p>
 <p>What contributes to axis 2?</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;col&quot;,axes=2)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;row&quot;,axes=2)</code></pre>
 <p><img src="figure/CA.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>I.F and I.S do.</p>
+<pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;row&quot;,axes=2)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>IIA-like does and IIA do. Again, look at the above biplot - I.F. and
+IIA-like and I.S are together on the top right, IIA is on the bottom
+right.</p>
 </div>
 <div id="quality-of-fit" class="section level1">
 <h1>Quality of fit</h1>
-<p>cos = 1, good representation.</p>
+<p>Not all points are automatically well-represented in two dimensions.
+Some points get drawn out better than others.</p>
+<p>We can calculate the cos2 for each item, if an item is well
+represented in both dimensions then cos = 1, if it’s terrible then cos =
+0.</p>
+<p>First the rows:</p>
 <pre class="r"><code>fviz_ca_row(domains.CA, col.row = &quot;cos2&quot;,
              gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
              repel = TRUE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Unidentified and Wanjina? and Ochre look worrying, the rest looks
+good.</p>
 <pre class="r"><code>fviz_ca_col(domains.CA, col.col = &quot;cos2&quot;,
              gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
              repel = TRUE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" />
+I.E. and I.O look bad, the rest looks good.</p>
+</div>
+<div id="correlation-plots" class="section level1">
+<h1>Correlation plots</h1>
+<p>Let’s make another correlation plot, but this time between row items
+and Dim1/Dim2.</p>
+<pre class="r"><code>row &lt;- get_ca_row(domains.CA)
+
+corrplot(row$cos2, is.corr = FALSE)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This is another way of looking what we had above. We have the default
+5 dimensions here, but Dim 3 to Dim 5 don’t contribute much and could be
+ignored.</p>
+<pre class="r"><code>corrplot(row$cos2[,c(&#39;Dim 1&#39;, &#39;Dim 2&#39;)], is.corr = FALSE)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="contribution" class="section level2">
+<h2>Contribution</h2>
+<p>We can also make those correlation plots looking at what each row
+contributes to each dimension.</p>
+<pre class="r"><code>corrplot(row$contrib, is.corr=FALSE)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Interestingly, Gwion contributes a lot to dimension 5?</p>
+<p>Again, using only the two dimensions:</p>
+<pre class="r"><code>corrplot(row$contrib[, c(&#39;Dim 1&#39;, &#39;Dim 2&#39;)], is.corr=FALSE)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Let’s add the contribution to our previous scatter plot:</p>
+<pre class="r"><code>fviz_ca_row(domains.CA, col.row = &quot;contrib&quot;,
+             gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
+             repel = TRUE)</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" />
+Now the dots are colored by how much they contribute to the
+dimensions.</p>
+</div>
+</div>
+<div id="clustering" class="section level1">
+<h1>Clustering</h1>
+<p>We can also cluster our rows using hierarchical clustering.</p>
+<p>This currently breaks with this error:</p>
+<p>Error in if (aux2 &gt; aux3) aux4 &lt;- phyper(donnee[j, k] - 1,
+marge.col[k], : missing value where TRUE/FALSE needed</p>
+<pre class="r"><code>domains.CA.cluster &lt;- HCPC(domains.CA,nb.clust=-1,graph=F)</code></pre>
+<p>We can make a grubbier one using PCA.</p>
+<pre class="r"><code>pca_cluster &lt;- HCPC(PCA(df), nb.clust = -1, graph=F)</code></pre>
+<pre><code>Warning: ggrepel: 6 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/CA.Rmd/unnamed-chunk-21-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>fviz_cluster(pca_cluster,
+             repel = TRUE,            
+             show.clust.cent = TRUE, 
+             palette = &quot;jco&quot;,         
+             ggtheme = theme_minimal(),
+             main = &quot;Factor map (PCA)&quot;
+             )</code></pre>
+<pre><code>Warning: ggrepel: 3 unlabeled data points (too many overlaps). Consider
+increasing max.overlaps</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This is PCA, <strong><em>NOT CA</em></strong>, but I expect the
+clustering graph of CA to look very similar.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -794,41 +980,44 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] factoextra_1.0.7 FactoMineR_2.6   forcats_0.5.1    stringr_1.4.0   
- [5] dplyr_1.0.9      purrr_0.3.4      readr_2.1.2      tidyr_1.2.0     
- [9] tibble_3.1.7     ggplot2_3.3.6    tidyverse_1.3.1  workflowr_1.7.0 
+ [1] corrplot_0.92    gplots_3.1.3     factoextra_1.0.7 FactoMineR_2.6  
+ [5] forcats_0.5.1    stringr_1.4.0    dplyr_1.0.9      purrr_0.3.4     
+ [9] readr_2.1.2      tidyr_1.2.0      tibble_3.1.7     ggplot2_3.3.6   
+[13] tidyverse_1.3.1  workflowr_1.7.0 
 
 loaded via a namespace (and not attached):
- [1] fs_1.5.2             lubridate_1.8.0      httr_1.4.3          
- [4] rprojroot_2.0.3      tools_4.2.0          backports_1.4.1     
- [7] bslib_0.3.1          utf8_1.2.2           R6_2.5.1            
-[10] DT_0.23              DBI_1.1.2            colorspace_2.0-3    
-[13] withr_2.5.0          tidyselect_1.1.2     processx_3.5.3      
-[16] emmeans_1.7.5        compiler_4.2.0       git2r_0.30.1        
-[19] cli_3.3.0            rvest_1.0.2          flashClust_1.01-2   
-[22] xml2_1.3.3           labeling_0.4.2       sass_0.4.1          
-[25] scales_1.2.0         mvtnorm_1.1-3        callr_3.7.0         
-[28] multcompView_0.1-8   digest_0.6.29        rmarkdown_2.14      
-[31] pkgconfig_2.0.3      htmltools_0.5.2      highr_0.9           
-[34] dbplyr_2.1.1         fastmap_1.1.0        htmlwidgets_1.5.4   
-[37] rlang_1.0.2          readxl_1.4.0         rstudioapi_0.13     
-[40] farver_2.1.0         jquerylib_0.1.4      generics_0.1.2      
-[43] jsonlite_1.8.0       car_3.1-0            magrittr_2.0.3      
-[46] leaps_3.1            Rcpp_1.0.8.3         munsell_0.5.0       
-[49] fansi_1.0.3          abind_1.4-5          lifecycle_1.0.1     
-[52] scatterplot3d_0.3-42 stringi_1.7.6        whisker_0.4         
-[55] yaml_2.3.5           carData_3.0-5        MASS_7.3-57         
-[58] grid_4.2.0           promises_1.2.0.1     ggrepel_0.9.1       
-[61] crayon_1.5.1         lattice_0.20-45      haven_2.5.0         
-[64] hms_1.1.1            knitr_1.39           ps_1.7.0            
-[67] pillar_1.7.0         ggpubr_0.4.0         ggsignif_0.6.3      
-[70] estimability_1.4     reprex_2.0.1         glue_1.6.2          
-[73] evaluate_0.15        getPass_0.2-2        modelr_0.1.8        
-[76] vctrs_0.4.1          tzdb_0.3.0           httpuv_1.6.5        
-[79] cellranger_1.1.0     gtable_0.3.0         assertthat_0.2.1    
-[82] xfun_0.31            xtable_1.8-4         broom_0.8.0         
-[85] rstatix_0.7.0        coda_0.19-4          later_1.3.0         
-[88] cluster_2.1.3        ellipsis_0.3.2      </code></pre>
+ [1] bitops_1.0-7         fs_1.5.2             lubridate_1.8.0     
+ [4] httr_1.4.3           ggsci_2.9            rprojroot_2.0.3     
+ [7] tools_4.2.0          backports_1.4.1      bslib_0.3.1         
+[10] utf8_1.2.2           R6_2.5.1             DT_0.23             
+[13] KernSmooth_2.23-20   DBI_1.1.2            colorspace_2.0-3    
+[16] withr_2.5.0          tidyselect_1.1.2     processx_3.5.3      
+[19] emmeans_1.7.5        compiler_4.2.0       git2r_0.30.1        
+[22] cli_3.3.0            rvest_1.0.2          flashClust_1.01-2   
+[25] xml2_1.3.3           labeling_0.4.2       sass_0.4.1          
+[28] caTools_1.18.2       scales_1.2.0         mvtnorm_1.1-3       
+[31] callr_3.7.0          multcompView_0.1-8   digest_0.6.29       
+[34] rmarkdown_2.14       pkgconfig_2.0.3      htmltools_0.5.2     
+[37] highr_0.9            dbplyr_2.1.1         fastmap_1.1.0       
+[40] htmlwidgets_1.5.4    rlang_1.0.2          readxl_1.4.0        
+[43] rstudioapi_0.13      farver_2.1.0         jquerylib_0.1.4     
+[46] generics_0.1.2       jsonlite_1.8.0       gtools_3.9.3        
+[49] car_3.1-0            magrittr_2.0.3       leaps_3.1           
+[52] Rcpp_1.0.8.3         munsell_0.5.0        fansi_1.0.3         
+[55] abind_1.4-5          lifecycle_1.0.1      scatterplot3d_0.3-42
+[58] stringi_1.7.6        whisker_0.4          yaml_2.3.5          
+[61] carData_3.0-5        MASS_7.3-57          grid_4.2.0          
+[64] promises_1.2.0.1     ggrepel_0.9.1        crayon_1.5.1        
+[67] lattice_0.20-45      haven_2.5.0          hms_1.1.1           
+[70] knitr_1.39           ps_1.7.0             pillar_1.7.0        
+[73] ggpubr_0.4.0         ggsignif_0.6.3       estimability_1.4    
+[76] reprex_2.0.1         glue_1.6.2           evaluate_0.15       
+[79] getPass_0.2-2        modelr_0.1.8         vctrs_0.4.1         
+[82] tzdb_0.3.0           httpuv_1.6.5         cellranger_1.1.0    
+[85] gtable_0.3.0         assertthat_0.2.1     xfun_0.31           
+[88] xtable_1.8-4         broom_0.8.0          rstatix_0.7.0       
+[91] coda_0.19-4          later_1.3.0          cluster_2.1.3       
+[94] ellipsis_0.3.2      </code></pre>
 </div>
 </div>
 
