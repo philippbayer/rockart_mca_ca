@@ -1,0 +1,82 @@
+---
+title: "MCA"
+author: "Philipp Bayer"
+date: "2022-09-14"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+MCA is an extension of CA that works better when the dataset is larger. Perhaps most famously used in the social sciences in *Bourdieu, P. "La distinction." Revue Philosophique de la France Et de l 172.1 (1982).*
+
+We already did some EDA in the [CA part](CA.html) so we will not repeat that here, rather we'll jump straight into the MCA. We will use the same packages as CA - FactoMineR and factoextra. See tutorials like https://rpubs.com/gaston/MCA  or https://cran.r-project.org/web/packages/factoextra/readme/README.html or http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/114-mca-multiple-correspondence-analysis-in-r-essentials/ 
+
+# Setup 
+
+```{r}
+library(FactoMineR)
+library(factoextra)
+library(tidyverse)
+```
+
+```{r}
+df <- data.frame(readxl::read_xlsx('./data/MCA_Macropods_Data.xlsx', sheet = 'Macropods_Complete ind'))
+head(df)
+```
+
+# MCA
+
+```{r}
+res.mca <- MCA(df, graph = FALSE, ncp = 5)
+summary(res.mca)
+
+eig.val <- get_eigenvalue(res.mca)
+eig.val
+```
+
+Now we have suddenly WAY more rows - 223 - so our cutoff differs. 1 / 222 * 100 = 0.45
+```{r}
+fviz_screeplot(res.mca,addlabels=T) + 
+  geom_hline(yintercept=0.45,linetype=2,color="red")
+```
+
+As you can see, MCA has a MUCH lower explained variances than CA, but our cutoff changed?
+
+## Plotting
+
+```{r}
+fviz_mca_biplot(res.mca, 
+               repel = TRUE, # Avoid text overlapping (slow if many point)
+               ggtheme = theme_minimal())
+```
+
+Oh. This particular dataset is much larger than the one I used for CA - investigating.
+
+## Contributions
+
+```{r}
+fviz_contrib(res.mca, choice="var",axes=1:2, top = 20)
+```
+
+```{r}
+fviz_mca_var(res.mca, col.var = "contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE, # avoid text overlapping (slow)
+             ggtheme = theme_minimal()
+             )
+
+```
+
+
+And by individual?
+
+```{r}
+fviz_mca_ind(res.mca, col.ind = "cos2", 
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"),
+             repel = TRUE, # Avoid text overlapping (slow if many points)
+             ggtheme = theme_minimal())
+```
+
+There are some weird outlier individuals. Hm.
