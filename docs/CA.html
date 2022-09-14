@@ -524,15 +524,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatree402397d7c48c89dad8d62295d0286a4dbb9915c3targetblank402397da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreec315bcbc19623eb3cf5904e72bc0cf5389e6d0aatargetblankc315bcba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/philippbayer/rockart_mca_ca/tree/402397d7c48c89dad8d62295d0286a4dbb9915c3" target="_blank">402397d</a>
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/c315bcbc19623eb3cf5904e72bc0cf5389e6d0aa" target="_blank">c315bcb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatree402397d7c48c89dad8d62295d0286a4dbb9915c3targetblank402397da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomphilippbayerrockartmcacatreec315bcbc19623eb3cf5904e72bc0cf5389e6d0aatargetblankc315bcba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -542,7 +542,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/philippbayer/rockart_mca_ca/tree/402397d7c48c89dad8d62295d0286a4dbb9915c3" target="_blank">402397d</a>.
+<a href="https://github.com/philippbayer/rockart_mca_ca/tree/c315bcbc19623eb3cf5904e72bc0cf5389e6d0aa" target="_blank">c315bcb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -603,6 +603,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/philippbayer/rockart_mca_ca/blob/c315bcbc19623eb3cf5904e72bc0cf5389e6d0aa/analysis/CA.Rmd" target="_blank">c315bcb</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-14
+</td>
+<td>
+wflow_publish("analysis/CA.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/philippbayer/rockart_mca_ca/7507bdd45a3735f6bf7ce76e4c6a18ce52cdc16c/docs/CA.html" target="_blank">7507bdd</a>
+</td>
+<td>
+Philipp Bayer
+</td>
+<td>
+2022-09-14
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -844,6 +878,37 @@ results.</p>
 <p>Some clear correlations there - I.B with IIA, I.C with IIA, I.F with
 IIA-like (so IIA and IIA-like are quite different!). These should pop up
 later in the CA.</p>
+<p>However, some of these types like Ochre seem very rare. Let’s
+count.</p>
+<pre class="r"><code>df %&gt;% as_tibble(rownames=&#39;Type&#39;) %&gt;% 
+  pivot_longer(-Type) %&gt;% 
+  group_by(Type) %&gt;% 
+  summarise(sums = sum(value))</code></pre>
+<pre><code># A tibble: 9 × 2
+  Type          sums
+  &lt;chr&gt;        &lt;int&gt;
+1 EAF             78
+2 Gwion           36
+3 Gwion-like      27
+4 IIA            107
+5 IIA-like        69
+6 Ochre            3
+7 SP               0
+8 Unidentified    16
+9 Wanjina?         5</code></pre>
+<p>Oh. There are just 3 Ochre measurements, 0 SP, and only 5 Wanjina.
+Those won’t cluster well.</p>
+<p>As a figure:</p>
+<pre class="r"><code>df %&gt;% as_tibble(rownames=&#39;Type&#39;) %&gt;% 
+  pivot_longer(-Type) %&gt;% 
+  group_by(Type) %&gt;% 
+  summarise(sums = sum(value)) %&gt;% 
+  ggplot(aes(x=Type, y=sums)) + 
+  geom_col(position=&#39;dodge&#39;) +
+  ylab(&#39;Count&#39;) + 
+  theme_minimal() +
+  scale_x_discrete(guide = guide_axis(angle = 45))</code></pre>
+<p><img src="figure/CA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="running-the-ca" class="section level1">
 <h1>Running the CA</h1>
@@ -915,14 +980,14 @@ with two dimensions we already have 76.8% explained in total. Let’s plot
 the dimensions’ variance explained:</p>
 <pre class="r"><code>fviz_screeplot(domains.CA,addlabels=T) + 
   geom_hline(yintercept=12.5,linetype=2,color=&quot;red&quot;)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>I added a y-intercept based on the expected eigenvalue if data were
 random: 1/(nrow(df)-1) * 100 = 12.5. Dimension 3 is <em>just</em> too
 low at 11.8% where the cutoff is 12.5%. So we can be confident to look
 only at the first two dimensions.</p>
 <p>Let’s make a regular CA plot to see how they cluster:</p>
 <pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>For the columns in blue, we can see IIA-like on its own in the top
 right, IIA and Oche on their own bottom right, and the rest clusters on
 the left.</p>
@@ -939,9 +1004,9 @@ in principal coordinates and columns in standard coordinates, or vice
 versa. These plots preserve row metric or column metric
 respectively.’</p>
 <pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;rowprincipal&quot;)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>fviz_ca_biplot(domains.CA,repel=T,map=&quot;colprincipal&quot;)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Both plots don’t look <em>that</em> different to me - the overall
 clusters are retained.</p>
 </div>
@@ -949,19 +1014,19 @@ clusters are retained.</p>
 <h1>Contribution of rows and columns</h1>
 <p>What contributes to axis 1? By column:</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;col&quot;,axes=1)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>So I.A contributes the most to the column-wise distribution.</p>
 <p>By row:</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;row&quot;,axes=1)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>EAF contributes the most. Look at the above biplot - EAF and IA are
 together on the left.</p>
 <p>What contributes to axis 2?</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;col&quot;,axes=2)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>I.F and I.S do.</p>
 <pre class="r"><code>fviz_contrib(domains.CA, choice=&quot;row&quot;,axes=2)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>IIA-like does and IIA do. Again, look at the above biplot - I.F. and
 IIA-like and I.S are together on the top right, IIA is on the bottom
 right.</p>
@@ -977,13 +1042,13 @@ represented in both dimensions then cos = 1, if it’s terrible then cos =
 <pre class="r"><code>fviz_ca_row(domains.CA, col.row = &quot;cos2&quot;,
              gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
              repel = TRUE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Unidentified and Wanjina? and Ochre look worrying, the rest looks
 good.</p>
 <pre class="r"><code>fviz_ca_col(domains.CA, col.col = &quot;cos2&quot;,
              gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
              repel = TRUE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="figure/CA.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" />
 I.E. and I.O look bad, the rest looks good.</p>
 </div>
 <div id="correlation-plots" class="section level1">
@@ -993,27 +1058,27 @@ and Dim1/Dim2.</p>
 <pre class="r"><code>row &lt;- get_ca_row(domains.CA)
 
 corrplot(row$cos2, is.corr = FALSE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This is another way of looking what we had above. We have the default
 5 dimensions here, but Dim 3 to Dim 5 don’t contribute much and could be
 ignored.</p>
 <pre class="r"><code>corrplot(row$cos2[,c(&#39;Dim 1&#39;, &#39;Dim 2&#39;)], is.corr = FALSE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div id="contribution" class="section level2">
 <h2>Contribution</h2>
 <p>We can also make those correlation plots looking at what each row
 contributes to each dimension.</p>
 <pre class="r"><code>corrplot(row$contrib, is.corr=FALSE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Interestingly, Gwion contributes a lot to dimension 5?</p>
 <p>Again, using only the two dimensions:</p>
 <pre class="r"><code>corrplot(row$contrib[, c(&#39;Dim 1&#39;, &#39;Dim 2&#39;)], is.corr=FALSE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Let’s add the contribution to our previous scatter plot:</p>
 <pre class="r"><code>fviz_ca_row(domains.CA, col.row = &quot;contrib&quot;,
              gradient.cols = c(&quot;#00AFBB&quot;, &quot;#E7B800&quot;, &quot;#FC4E07&quot;), 
              repel = TRUE)</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="figure/CA.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
 Now the dots are colored by how much they contribute to the
 dimensions.</p>
 </div>
@@ -1029,7 +1094,7 @@ marge.col[k], : missing value where TRUE/FALSE needed</p>
 <pre class="r"><code>pca_cluster &lt;- HCPC(PCA(df), nb.clust = -1, graph=F)</code></pre>
 <pre><code>Warning: ggrepel: 6 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/CA.Rmd/unnamed-chunk-21-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/CA.Rmd/unnamed-chunk-23-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>fviz_cluster(pca_cluster,
              repel = TRUE,            
              show.clust.cent = TRUE, 
@@ -1039,7 +1104,7 @@ increasing max.overlaps</code></pre>
              )</code></pre>
 <pre><code>Warning: ggrepel: 3 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps</code></pre>
-<p><img src="figure/CA.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/CA.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This is PCA, <strong><em>NOT CA</em></strong>, but I expect the
 clustering graph of CA to look very similar.</p>
 <br>
