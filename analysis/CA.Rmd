@@ -9,7 +9,9 @@ editor_options:
 
 ## Introduction
 
-Here, we run through a standard CA. The code is mostly based on https://rentzb.github.io/post/ca/ using the FactoMineR package.
+Here, we run through a standard CA. The code is mostly based on https://rentzb.github.io/post/ca/ using the FactoMineR package. A great article explaining the logic behind CA is [here](https://programminghistorian.org/en/lessons/correspondence-analysis-in-R), Ryan Deschamps, "Correspondence Analysis for Historical Research with R," Programming Historian 6 (2017), https://doi.org/10.46430/phen0062.
+
+
 
 ```{r setup}
 library(tidyverse)
@@ -32,6 +34,8 @@ head(df)
 ```
 
 
+Let's quickly look at the per-group counts:
+
 ```{r fig.width=12}
 df %>% as_tibble(rownames = 'Types') %>% 
   pivot_longer(-Types) %>% 
@@ -40,6 +44,8 @@ df %>% as_tibble(rownames = 'Types') %>%
   ylab('Count') + 
   theme_minimal()
 ```
+
+That looks very biased and not random, so we should get some good results.
 
 Let's make a correlation plot too.
 
