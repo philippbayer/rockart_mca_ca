@@ -1,5 +1,5 @@
 ---
-title: "CA"
+title: "EDA & CA"
 author: "Philipp Bayer"
 date: "2022-09-13"
 output: workflowr::wflow_html
@@ -11,7 +11,7 @@ editor_options:
 
 Here, we run through a standard CA. The code is mostly based on https://rentzb.github.io/post/ca/ using the FactoMineR package. A great article explaining the logic behind CA is [here](https://programminghistorian.org/en/lessons/correspondence-analysis-in-R), Ryan Deschamps, "Correspondence Analysis for Historical Research with R," Programming Historian 6 (2017), https://doi.org/10.46430/phen0062.
 
-
+# Setup
 
 ```{r setup}
 library(tidyverse)
@@ -33,6 +33,9 @@ df <- read.csv('data/CA_macropods.csv', row.names = 1)
 head(df)
 ```
 
+# EDA
+
+Let's make some smaller analytical plots to get a feel for this data.
 
 Let's quickly look at the per-group counts:
 
@@ -54,7 +57,7 @@ balloonplot(as.table(as.matrix(df)), main='Types', xlab='', ylab='',
             label = FALSE, show.margins=FALSE)
 ```
 
-Some clear correlations there - I.B with IIA, I.C with IIA, I.F with IIA-like (so IIA and IIA-like are quite different!)
+Some clear correlations there - I.B with IIA, I.C with IIA, I.F with IIA-like (so IIA and IIA-like are quite different!). These should pop up later in the CA.
 
 # Running the CA
 

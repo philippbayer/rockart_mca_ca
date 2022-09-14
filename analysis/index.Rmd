@@ -10,4 +10,6 @@ editor_options:
 
 This page collects the code for the CA and MCA analysis of Ana Paula Motta's rockart dataset.
 
-[Correspondence Analysis (CA)](CA.html)
+[Explorative data analysis and Correspondence Analysis (CA)](CA.html)
+
+[Multiple Correspondence Analysis (MCA)](MCA.html)
