@@ -59,6 +59,31 @@ balloonplot(as.table(as.matrix(df)), main='Types', xlab='', ylab='',
 
 Some clear correlations there - I.B with IIA, I.C with IIA, I.F with IIA-like (so IIA and IIA-like are quite different!). These should pop up later in the CA.
 
+However, some of these types like Ochre seem very rare. Let's count.
+
+```{r}
+df %>% as_tibble(rownames='Type') %>% 
+  pivot_longer(-Type) %>% 
+  group_by(Type) %>% 
+  summarise(sums = sum(value))
+```
+
+Oh. There are just 3 Ochre measurements, 0 SP, and only 5 Wanjina. Those won't cluster well.
+
+As a figure:
+
+```{r}
+df %>% as_tibble(rownames='Type') %>% 
+  pivot_longer(-Type) %>% 
+  group_by(Type) %>% 
+  summarise(sums = sum(value)) %>% 
+  ggplot(aes(x=Type, y=sums)) + 
+  geom_col(position='dodge') +
+  ylab('Count') + 
+  theme_minimal() +
+  scale_x_discrete(guide = guide_axis(angle = 45))
+```
+
 # Running the CA
 
 ```{r}
