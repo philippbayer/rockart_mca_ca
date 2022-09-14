@@ -15,12 +15,15 @@ Here, we run through a standard CA. The code is mostly based on https://rentzb.g
 library(tidyverse)
 library(FactoMineR)
 library(factoextra)
-#install.packages(c('factoextra', 'FactoMineR'))
+library(gplots)
+library(corrplot)
+
+#install.packages(c('gplots', 'factoextra', 'FactoMineR'))
 ```
 
 For CA we need to make a contingency table, the number of responses/possible values for each level for each variable (column).
 
-Let's do that!
+We have one already.
 
 ```{r}
 #df <- readxl::read_xlsx('./data/MCA_Macropods_Data.xlsx', sheet = 'Macropods_Complete ind')
@@ -34,50 +37,78 @@ df %>% as_tibble(rownames = 'Types') %>%
   pivot_longer(-Types) %>% 
   ggplot(aes(x=Types, y=value, fill=name)) + 
   geom_col(position='dodge') +
-  ylab('Count')
+  ylab('Count') + 
+  theme_minimal()
 ```
+
+Let's make a correlation plot too.
+
+```{r fig.height=12}
+balloonplot(as.table(as.matrix(df)), main='Types', xlab='', ylab='',
+            label = FALSE, show.margins=FALSE)
+```
+
+Some clear correlations there - I.B with IIA, I.C with IIA, I.F with IIA-like (so IIA and IIA-like are quite different!)
 
 # Running the CA
 
 ```{r}
 domains.CA <- CA(df, graph=F)
-domains.CA
+summary(domains.CA)
 ```
+
+That's a very tiny p-value, so there is a statistically significant association between the rows and columns (the two groups).
+
+We also see that the cumulative % of variance explained is very good, with two dimensions we already have 76.8% explained in total.
+Let's plot the dimensions' variance explained:
 
 ```{r}
-fviz_ca_biplot(domains.CA,repel=T)
-
+fviz_screeplot(domains.CA,addlabels=T) + 
+  geom_hline(yintercept=12.5,linetype=2,color="red")
 ```
+
+I added a y-intercept based on the expected eigenvalue if data were random: 1/(nrow(df)-1) * 100 = 12.5. Dimension 3 is *just* too low at 11.8% where the cutoff is 12.5%. So we can be confident to look only at the first two dimensions.
+
+Let's make a regular CA plot to see how they cluster:
+```{r}
+fviz_ca_biplot(domains.CA,repel=T)
+```
+
+For the columns in blue, we can see IIA-like on its own in the top right, IIA and Oche on their own bottom right, and the rest clusters on the left.
+
+Let's see whether there's differences between rows and columns - from the fviz_ca_biplot manual:
+
+'The default plot of (M)CA is a "symmetric" plot in which both rows and columns are in principal coordinates. In this situation, it's not possible to interpret the distance between row points and column points. To overcome this problem, the simplest way is to make an asymmetric plot. This means that, the column profiles must be presented in row space or vice-versa. The allowed options for the argument map are:
+
+"rowprincipal" or "colprincipal": asymmetric plots with either rows in principal coordinates and columns in standard coordinates, or vice versa. These plots preserve row metric or column metric respectively.'
 
 ```{r}
 fviz_ca_biplot(domains.CA,repel=T,map="rowprincipal")
-
 ```
 
 ```{r}
 fviz_ca_biplot(domains.CA,repel=T,map="colprincipal")
-
 ```
 
+Both plots don't look *that* different to me - the overall clusters are retained.
 
-```{r}
-fviz_screeplot(domains.CA,addlabels=T) + 
-  geom_hline(yintercept=14.3,linetype=2,color="red")
-```
+# Contribution of rows and columns
 
 What contributes to axis 1?
 By column:
 ```{r}
 fviz_contrib(domains.CA, choice="col",axes=1)
-
 ```
+
+So I.A contributes the most to the column-wise distribution.
 
 By row:
 
 ```{r}
 fviz_contrib(domains.CA, choice="row",axes=1)
-
 ```
+
+EAF contributes the most. Look at the above biplot - EAF and IA are together on the left.
 
 What contributes to axis 2?
 
@@ -86,25 +117,104 @@ fviz_contrib(domains.CA, choice="col",axes=2)
 
 ```
 
+I.F and I.S do.
 
 ```{r}
 fviz_contrib(domains.CA, choice="row",axes=2)
-
 ```
+
+IIA-like does and IIA do. Again, look at the above biplot - I.F. and IIA-like and I.S are together on the top right, IIA is on the bottom right.
 
 # Quality of fit
 
-cos = 1, good representation.
+Not all points are automatically well-represented in two dimensions. Some points get drawn out better than others.
 
+We can calculate the cos2 for each item, if an item is well represented in both dimensions then cos = 1, if it's terrible then cos = 0.
+
+
+First the rows:
 ```{r}
 fviz_ca_row(domains.CA, col.row = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE)
 ```
 
+Unidentified and Wanjina? and Ochre look worrying, the rest looks good.
+
 ```{r}
 fviz_ca_col(domains.CA, col.col = "cos2",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
              repel = TRUE)
 ```
+I.E. and I.O look bad, the rest looks good.
 
+# Correlation plots
+
+Let's make another correlation plot, but this time between row items and Dim1/Dim2.
+
+```{r fig.height=12}
+row <- get_ca_row(domains.CA)
+
+corrplot(row$cos2, is.corr = FALSE)
+```
+
+This is another way of looking what we had above. We have the default 5 dimensions here, but Dim 3 to Dim 5 don't contribute much and could be ignored.
+
+```{r fig.height=12}
+corrplot(row$cos2[,c('Dim 1', 'Dim 2')], is.corr = FALSE)
+```
+ 
+## Contribution
+
+We can also make those correlation plots looking at what each row contributes to each dimension.
+
+```{r fig.height=12}
+corrplot(row$contrib, is.corr=FALSE)
+```
+
+Interestingly, Gwion contributes a lot to dimension 5?
+
+Again, using only the two dimensions:
+```{r fig.height=12}
+corrplot(row$contrib[, c('Dim 1', 'Dim 2')], is.corr=FALSE)
+```
+
+Let's add the contribution to our previous scatter plot:
+
+```{r}
+fviz_ca_row(domains.CA, col.row = "contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE)
+```
+Now the dots are colored by how much they contribute to the dimensions.
+
+# Clustering
+
+We can also cluster our rows using hierarchical clustering. 
+
+This currently breaks with this error:
+
+Error in if (aux2 > aux3) aux4 <- phyper(donnee[j, k] - 1, marge.col[k],  : 
+  missing value where TRUE/FALSE needed
+  
+```{r eval=FALSE}
+domains.CA.cluster <- HCPC(domains.CA,nb.clust=-1,graph=F)
+```
+
+We can make a grubbier one using PCA.
+
+```{r}
+pca_cluster <- HCPC(PCA(df), nb.clust = -1, graph=F)
+```
+
+```{r}
+fviz_cluster(pca_cluster,
+             repel = TRUE,            
+             show.clust.cent = TRUE, 
+             palette = "jco",         
+             ggtheme = theme_minimal(),
+             main = "Factor map (PCA)"
+             )
+```
+
+This is PCA, ***NOT CA***, but I expect the clustering graph of CA to look very similar.
